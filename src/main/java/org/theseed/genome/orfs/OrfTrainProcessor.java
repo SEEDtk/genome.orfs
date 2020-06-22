@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.theseed.genome.Contig;
 import org.theseed.genome.Genome;
 import org.theseed.genome.GenomeDirectory;
+import org.theseed.io.BalancedOutputStream;
 import org.theseed.io.Shuffler;
 import org.theseed.locations.Location;
 import org.theseed.locations.SequenceLocation;
@@ -85,6 +86,8 @@ public class OrfTrainProcessor extends OrfDataSetProcessor {
 
     @Override
     protected void runCommand() throws Exception {
+        // Attach the output stream.
+        this.setOutStream(new BalancedOutputStream(2.0, System.out));
         // Get the genome directory.
         GenomeDirectory genomes = new GenomeDirectory(this.inDir);
         log.info("{} genomes found in {}.", genomes.size(), this.inDir);
@@ -145,6 +148,8 @@ public class OrfTrainProcessor extends OrfDataSetProcessor {
                 // Create the data line.
                 String locId = seqLoc.positionString();
                 this.outputCodon(seqLoc, isCoding, locId);
+                // Count this ORF.
+                this.countOrf();
                 // Get the next stop.
                 stopLoc = nextStop;
                 nextStop = seqLoc.next();

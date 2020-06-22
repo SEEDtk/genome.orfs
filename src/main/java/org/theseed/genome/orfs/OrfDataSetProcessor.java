@@ -144,10 +144,17 @@ public abstract class OrfDataSetProcessor extends BaseProcessor {
     }
 
     /**
-     * @return the number of pegs processed
+     * @return the number of items processed
      */
-    protected int getPegCount() {
+    protected int getOrfCount() {
         return orfCount;
+    }
+
+    /**
+     * Count an item/
+     */
+    protected void countOrf() {
+        this.orfCount++;
     }
 
     /**
@@ -176,7 +183,7 @@ public abstract class OrfDataSetProcessor extends BaseProcessor {
      */
     protected void finish() {
         this.outStream.close();
-        log.info("All done. {} ORFs, {} true starts, {} false starts.", this.orfCount, this.trueCount,
+        log.info("All done. {} ORFs, {} true, {} false.", this.orfCount, this.trueCount,
                 this.falseCount);
     }
 
